@@ -214,7 +214,7 @@ l_pass_KNN <- kNN(league_passing)
 
 
 
-
+#EXPORTING FINAL IMPUTED DATA SETS
 #Change to suit your computer directory
 write_xlsx(t_shoot_KNN,"Desktop/Year 16/_TRI 1/ACTl4001/t_shoot.xlsx")
 write_xlsx(t_pass_KNN,"Desktop/Year 16/_TRI 1/ACTl4001/t_pass.xlsx")
