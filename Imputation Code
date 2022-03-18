@@ -215,3 +215,14 @@ l_pass_KNN <- kNN(league_passing)
 
 
 
+#Change to suit your computer directory
+write_xlsx(t_shoot_KNN,"Desktop/Year 16/_TRI 1/ACTl4001/t_shoot.xlsx")
+write_xlsx(t_pass_KNN,"Desktop/Year 16/_TRI 1/ACTl4001/t_pass.xlsx")
+write_xlsx(t_goal_KNN,"Desktop/Year 16/_TRI 1/ACTl4001/t_goal.xlsx")
+write_xlsx(t_defense_KNN,"Desktop/Year 16/_TRI 1/ACTl4001/t_defense.xlsx")
+write_xlsx(l_goal_KNN,"Desktop/Year 16/_TRI 1/ACTl4001/l_goal.xlsx")
+write_xlsx(l_defense_KNN,"Desktop/Year 16/_TRI 1/ACTl4001/l_defense.xlsx")
+write_xlsx(l_shoot_KNN,"Desktop/Year 16/_TRI 1/ACTl4001/l_shoot.xlsx")
+write_xlsx(l_pass_KNN,"Desktop/Year 16/_TRI 1/ACTl4001/l_pass.xlsx")
+
+
