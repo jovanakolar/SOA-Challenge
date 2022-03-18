@@ -1,0 +1,217 @@
+
+######4001 PROJECT########
+
+data_names <- c(tournament_shooting,
+tournament_results,
+tournament_passing,
+tournament_goalkeeping,
+tournament_defense,
+spot_rates_rarita,
+social_media,
+revenue,
+population_rarita,
+population_density_rarita,
+other_countries_gdp,
+mf_league,
+league_shooting,
+league_passing,
+league_goalkeeping,
+league_defense,
+inflation_rates_rarita,
+household_saving_rarita,
+healthcare_rarita,
+gni_rarita,
+gk_league,
+gdp_rarita,
+fw_league,
+expense,
+doubloon2euro,
+df_league,
+attendance,
+salaries2021,
+salaries2020)
+
+
+#INITIAL FILE DOWNLOAD
+tournament_shooting <- read.csv("~/Downloads/SOA-Challenge-main/Data/tournament_shooting.csv")
+tournament_results <- read.csv("~/Downloads/SOA-Challenge-main/Data/tournament_results.csv")
+tournament_passing <- read.csv("~/Downloads/SOA-Challenge-main/Data/tournament_passing.csv")
+tournament_goalkeeping <- read.csv("~/Downloads/SOA-Challenge-main/Data/tournament_goalkeeping.csv")
+tournament_defense <- read.csv("~/Downloads/SOA-Challenge-main/Data/tournament_defense.csv")
+spot_rates_rarita <- read.csv("~/Downloads/SOA-Challenge-main/Data/spot_rates_rarita.csv")
+social_media <- read.csv("~/Downloads/SOA-Challenge-main/Data/social_media.csv")
+revenue <- read.csv("~/Downloads/SOA-Challenge-main/Data/revenue.csv")
+population_rarita <- read.csv("~/Downloads/SOA-Challenge-main/Data/population_rarita.csv")
+population_density_rarita <- read.csv("~/Downloads/SOA-Challenge-main/Data/population_density_rarita.csv")
+other_countries_gdp <- read.csv("~/Downloads/SOA-Challenge-main/Data/other_countries_gdp.csv")
+mf_league <- read.csv("~/Downloads/SOA-Challenge-main/Data/mf_league.csv")
+league_shooting <- read.csv("~/Downloads/SOA-Challenge-main/Data/league_shooting.csv")
+league_passing <- read.csv("~/Downloads/SOA-Challenge-main/Data/league_passing.csv")
+league_goalkeeping <- read.csv("~/Downloads/SOA-Challenge-main/Data/league_goalkeeping.csv")
+league_defense <- read.csv("~/Downloads/SOA-Challenge-main/Data/league_defense.csv")
+inflation_rates_rarita <- read.csv("~/Downloads/SOA-Challenge-main/Data/inflation_rates_rarita.csv")
+household_saving_rarita <- read.csv("~/Downloads/SOA-Challenge-main/Data/household_saving_rarita.csv")
+healthcare_rarita <- read.csv("~/Downloads/SOA-Challenge-main/Data/healthcare_rarita.csv")
+gni_rarita <- read.csv("~/Downloads/SOA-Challenge-main/Data/gni_rarita.csv")
+gk_league <- read.csv("~/Downloads/SOA-Challenge-main/Data/gk_league.csv")
+gdp_rarita <- read.csv("~/Downloads/SOA-Challenge-main/Data/gdp_rarita.csv")
+fw_league <- read.csv("~/Downloads/SOA-Challenge-main/Data/fw_league.csv")
+expense <- read.csv("~/Downloads/SOA-Challenge-main/Data/expense.csv")
+doubloon2euro <- read.csv("~/Downloads/SOA-Challenge-main/Data/doubloon2euro.csv")
+df_league <- read.csv("~/Downloads/SOA-Challenge-main/Data/df_league.csv")
+attendance <- read.csv("~/Downloads/SOA-Challenge-main/Data/attendance.csv")
+salaries2021 <- read.csv("~/Downloads/SOA-Challenge-main/Data/2021_salaries.csv")
+salaries2020 <- read.csv("~/Downloads/SOA-Challenge-main/Data/2020_salaries.csv")
+
+
+#INITIAL PACKAGES
+library(gdata)
+library(Amelia)
+library(VIM)
+library(missForest)
+library(ggplot2)
+
+#TO COUNT NA VALUES
+
+tournament_shooting_NA_count <-as.data.frame(sapply(tournament_shooting, function(y) sum(length(which(is.na(y))))))
+names_tournament_shooting <- rownames(tournament_shooting_NA_count)
+rownames(tournament_shooting_NA_count) <- NULL
+tournament_shooting_NA_ready <- cbind(names_tournament_shooting,tournament_shooting_NA_count)
+
+tournament_results_NA_count <-as.data.frame(sapply(tournament_results, function(y) sum(length(which(is.na(y))))))
+names_tournament_results <- rownames(tournament_results_NA_count)
+rownames(tournament_results_NA_count) <- NULL
+tournament_results_NA_ready <- cbind(names_tournament_results,tournament_results_NA_count)
+
+tournament_passing_NA_count <-as.data.frame(sapply(tournament_passing, function(y) sum(length(which(is.na(y))))))
+names_tournament_passing <- rownames(tournament_passing_NA_count)
+rownames(tournament_passing_NA_count) <- NULL
+tournament_passing_NA_ready <- cbind(names_tournament_passing,tournament_passing_NA_count)
+
+tournament_goalkeeping_NA_count <-as.data.frame(sapply(tournament_goalkeeping, function(y) sum(length(which(is.na(y))))))
+names_tournament_goalkeeping <- rownames(tournament_goalkeeping_NA_count)
+rownames(tournament_goalkeeping_NA_count) <- NULL
+tournament_goalkeeping_NA_ready <- cbind(names_tournament_goalkeeping,tournament_goalkeeping_NA_count)
+
+tournament_defense_NA_count <-as.data.frame(sapply(tournament_defense, function(y) sum(length(which(is.na(y))))))
+names_tournament_defense <- rownames(tournament_defense_NA_count)
+rownames(tournament_defense_NA_count) <- NULL
+tournament_defense_NA_ready <- cbind(names_tournament_defense,tournament_defense_NA_count)
+
+league_goalkeeping_NA_count <-as.data.frame(sapply(league_goalkeeping, function(y) sum(length(which(is.na(y))))))
+names_league_goalkeeping <- rownames(league_goalkeeping_NA_count)
+rownames(league_goalkeeping_NA_count) <- NULL
+league_goalkeeping_NA_ready <- cbind(names_league_goalkeeping,league_goalkeeping_NA_count)
+
+league_defense_NA_count <-as.data.frame(sapply(league_defense, function(y) sum(length(which(is.na(y))))))
+names_league_defense <- rownames(league_defense_NA_count)
+rownames(league_defense_NA_count) <- NULL
+league_defense_NA_ready <- cbind(names_league_defense,league_defense_NA_count)
+
+league_shooting_NA_count <-as.data.frame(sapply(league_shooting, function(y) sum(length(which(is.na(y))))))
+names_league_shooting <- rownames(league_shooting_NA_count)
+rownames(league_shooting_NA_count) <- NULL
+league_shooting_NA_ready <- cbind(names_league_shooting,league_shooting_NA_count)
+
+league_passing_NA_count <-as.data.frame(sapply(league_passing, function(y) sum(length(which(is.na(y))))))
+names_league_passing <- rownames(league_passing_NA_count)
+rownames(league_passing_NA_count) <- NULL
+league_passing_NA_ready <- cbind(names_league_passing,league_passing_NA_count)
+
+total_NA <- cbindX(tournament_shooting_NA_ready,tournament_results_NA_ready,tournament_passing_NA_ready,tournament_goalkeeping_NA_ready,
+                  tournament_defense_NA_ready,league_goalkeeping_NA_ready,league_defense_NA_ready,league_shooting_NA_ready,league_passing_NA_ready)
+
+
+final_NA <- total_NA <- cbindX(tournament_shooting_NA_ready,tournament_passing_NA_ready,tournament_goalkeeping_NA_ready,
+                               tournament_defense_NA_ready,league_goalkeeping_NA_ready,league_defense_NA_ready,league_shooting_NA_ready,league_passing_NA_ready)
+
+#dont need to include tournament_results
+
+to_impute <- c(tournament_shooting,
+tournament_passing,
+tournament_goalkeeping,
+tournament_defense,
+league_goalkeeping,
+league_defense,
+league_shooting,
+league_passing)
+
+missmap(tournament_shooting,col=c('pink','blue'), main="tournament_shooting")
+missmap(tournament_passing,col=c('pink','blue'), main="tournament_passing")
+missmap(tournament_goalkeeping,col=c('pink','blue'), main="tournament_goalkeeping")
+missmap(tournament_defense,col=c('pink','blue'), main="tournament_defense")
+missmap(league_goalkeeping,col=c('pink','blue'), main="league_goalkeeping")
+missmap(league_defense,col=c('pink','blue'), main="league_defense")
+missmap(league_shooting,col=c('pink','blue'), main="league_shooting")
+missmap(league_passing,col=c('pink','blue'), main="league_passing")
+
+
+#Testing Imputation Methods on the Tournament Shooting Dataset
+
+#Hot deck imputation
+t_shoot_hotdeck <- hotdeck(tournament_shooting)
+system.time(t_shoot_hotdeck <- hotdeck(tournament_shooting))
+#  user  system elapsed 
+#0.266   0.005   0.271 
+hotdeck_NA_count <-sapply(t_shoot_hotdeck, function(y) sum(length(which(is.na(y)))))
+hotdeck_NA_count
+
+#KNN imputation
+#CHOSEN
+t_shoot_KNN <- kNN(tournament_shooting)
+system.time(t_shoot_KNN <- kNN(tournament_shooting))
+#user  system elapsed 
+#14.943   1.386  16.352 
+KNN_NA_count <-sapply(t_shoot_KNN, function(y) sum(length(which(is.na(y)))))
+KNN_NA_count
+
+#Iterative robust model based imputation
+t_shoot_irmi <- irmi(tournament_shooting)
+system.time(t_shoot_irmi <- irmi(tournament_shooting))
+irmi_NA_count <-sapply(t_shoot_irmi, function(y) sum(length(which(is.na(y)))))
+irmi_NA_count
+
+#Individual regression imputation
+t_shoot_individ_reg <- regressionImp(tournament_shooting)
+system.time(t_shoot_individ_reg <- irmi(tournament_shooting))
+individ_reg_NA_count <-sapply(t_shoot_individ_reg, function(y) sum(length(which(is.na(y)))))
+individ_reg_NA_count
+
+#Amelia imputation
+t_shoot_amelia_quan <- amelia(tournament_shooting[,t_shoot_quan])
+write.amelia(obj=t_shoot_amelia_quan, file.stem= "t_shoot_amelia_imputed.csv" )
+overimpute(t_shoot_amelia_quan, var="MonthlyMinutes")
+tscsPlot(t_shoot_amelia_quan, var="MonthlyMinutes", cs="MonthlyRevenue")
+
+#MICE package imputation
+t_shoot_mice <- mice(tournament_shooting,method="cart", seed = 100)
+system.time(t_shoot_mice <- mice(tournament_shooting,method="cart", seed = 100))
+summary(t_shoot_mice)
+xyplot(t_shoot_mice,MonthlyMinutes ~ MonthlyRevenue + TotalRecurringCharge + OverageMinutes
+       + RoamingCalls + Handsets + HandsetModels + CurrentEquipmentDays + AgeHH1 + AgeHH2)
+densityplot(t_shoot_mice)
+t_shoot_mice_complete <- complete(t_shoot_mice, 2)
+head(t_shoot_mice_complete)
+
+#missForest imputation
+t_shoot_missForest <- missForest(tournament_shooting)
+t_shoot_missForest$OOBerror
+system.time(t_shoot_missForest <- missForest(tournament_shooting))
+
+
+#CHOSEN: KNN imputation
+#Applying KNN to all other data sets
+
+
+t_shoot_KNN <- kNN(tournament_shooting)
+t_pass_KNN <- kNN(tournament_passing) 
+t_goal_KNN <- kNN(tournament_goalkeeping) 
+t_defense_KNN <- kNN(tournament_defense) 
+l_goal_KNN <- kNN(league_goalkeeping) 
+l_defense_KNN <- kNN(league_defense) 
+l_shoot_KNN <- kNN(league_shooting) 
+l_pass_KNN <- kNN(league_passing)
+
+
+
+
